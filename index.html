@@ -220,6 +220,28 @@
   }
   .pass-link:hover { text-decoration-color: var(--pass-text); }
 
+  .pass-copy {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-8);
+    margin-top: var(--space-16);
+    min-height: var(--target);
+    padding: var(--space-8) var(--space-16);
+    border: 1px solid var(--pass-line);
+    border-radius: var(--radius-control);
+    background: transparent;
+    color: var(--pass-text);
+    font-family: var(--font-sans);
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 1;
+    cursor: pointer;
+    transition: border-color var(--duration-quick) var(--ease-decelerate);
+  }
+  .pass-copy:hover { border-color: var(--pass-text); }
+  .pass-copy:focus-visible { outline: 2px solid var(--pass-text); outline-offset: 3px; }
+  .pass-copy[data-copied="true"] { border-color: var(--accent); color: #ffffff; }
+
   /* Sections */
   .section { padding-block: var(--space-48); border-top: 1px solid var(--line); }
   .section h2 {
@@ -320,6 +342,8 @@
       <div class="pass-perf" aria-hidden="true"></div>
       <p class="pass-link-label">Or open my invite link</p>
       <a class="pass-link" href="https://make.fun/r/y7cjn3nn">https://make.fun/r/y7cjn3nn</a>
+      <br>
+      <button class="pass-copy" type="button" id="copy-code" aria-label="Copy invite code y7cjn3nn to the clipboard">⧉ Copy code</button>
     </section>
   </section>
 
@@ -371,5 +395,31 @@
 <footer class="site-foot shell">
   <p>Ad page for <a href="https://make.fun">make.fun</a> · Sign up with invite code <strong>y7cjn3nn</strong> or <a href="https://make.fun/r/y7cjn3nn">make.fun/r/y7cjn3nn</a> · Open to individuals 18 or older · Rewards paid in USDC on Solana.</p>
 </footer>
+  <script>
+    (function () {
+      var btn = document.getElementById('copy-code');
+      if (!btn) return;
+      btn.addEventListener('click', function () {
+        var done = function () {
+          btn.dataset.copied = 'true';
+          btn.textContent = '✓ Copied y7cjn3nn';
+          setTimeout(function () {
+            btn.dataset.copied = 'false';
+            btn.textContent = '⧉ Copy code';
+          }, 2000);
+        };
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText('y7cjn3nn').then(done, function () {});
+        } else {
+          var ta = document.createElement('textarea');
+          ta.value = 'y7cjn3nn';
+          document.body.appendChild(ta);
+          ta.select();
+          try { document.execCommand('copy'); done(); } catch (e) {}
+          document.body.removeChild(ta);
+        }
+      });
+    })();
+  </script>
 </body>
 </html>
